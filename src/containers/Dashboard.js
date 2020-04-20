@@ -10,18 +10,13 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
-import Chart from "../components/Chart";
-import Deposits from "../components/Deposits";
-import Orders from "../components/Orders";
+import Chart_All from "../components/Chart_death";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"License MIT - "}
-      <Link
-        color="inherit"
-        href="https://github.com/thiagonf/dashboard-covid-entornoDF"
-      >
+      <Link color="inherit" href="https://github.com/thiagonf">
         Thiago Nogueira
       </Link>{" "}
       {new Date().getFullYear()}
@@ -98,23 +93,15 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
   },
-  fixedHeight: {
-    height: 240,
-  },
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar && classes.appBarShift)}
-      >
+      <AppBar position="absolute" className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
           <Typography
             component="h1"
@@ -132,21 +119,9 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper>
+                <Chart_All></Chart_All>
               </Paper>
             </Grid>
           </Grid>
