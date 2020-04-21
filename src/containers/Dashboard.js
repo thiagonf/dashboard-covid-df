@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
-import Chart_All from "../components/Chart_death";
+import ChartAll from "../components/ChartAll";
 
 function Copyright() {
   return (
@@ -121,7 +121,7 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper>
-                <Chart_All></Chart_All>
+                <ChartAll></ChartAll>
               </Paper>
             </Grid>
           </Grid>

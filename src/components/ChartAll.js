@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
-class Chart_All extends Component {
+class ChartAll extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      data: null,
       options: {
         chart: {
           height: 350,
@@ -22,7 +23,7 @@ class Chart_All extends Component {
             show: false,
           },
         },
-        colors: ["#77B6EA", "#545454", "#9BFF75"],
+        colors: ["#77B6EA", "#545454"],
         dataLabels: {
           enabled: true,
         },
@@ -68,18 +69,20 @@ class Chart_All extends Component {
   }
 
   set_series() {
+    var dead = this.state.data.results.map(function (item) {
+      return item.deaths;
+    });
+    var infected = this.state.data.results.map(function (item) {
+      return item.confirmed;
+    });
     const series = [
       {
         name: "Infectados",
-        data: [28, 29, 33, 36, 32, 32, 33],
+        data: infected.reverse(),
       },
       {
         name: "Mortos",
-        data: [12, 11, 14, 18, 17, 13, 13],
-      },
-      {
-        name: "Curados",
-        data: [2, 1, 4, 8, 7, 1, 3],
+        data: dead.reverse(),
       },
     ];
 
@@ -87,23 +90,32 @@ class Chart_All extends Component {
   }
 
   set_axis() {
-    const axis = [
-      "19/04",
-      "20/04",
-      "21/04",
-      "22/04",
-      "23/04",
-      "24/04",
-      "25/04",
-      "26/04",
-    ];
+    var axis = this.state.data.results.map(function (item) {
+      return item.date.slice(-5);
+    });
 
-    return axis;
+    return axis.reverse();
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await fetch(
+        "https://brasil.io/api/dataset/covid19/caso/data/?city=Luzi%C3%A2nia"
+      );
+      const json = await response.json();
+      this.setState({ data: json });
+      const xaxis = this.set_axis();
+      const series = this.set_series();
+      this.setState({ series: series });
+      const newxAxis = { ...this.state.options.xaxis, categories: xaxis };
+      const newOptions = { ...this.state.options, xaxis: newxAxis };
+      this.setState({ options: newOptions });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
-    this.state.series = this.set_series();
-    this.state.options.xaxis.categories = this.set_axis();
     return (
       <div>
         <Chart
@@ -116,4 +128,4 @@ class Chart_All extends Component {
   }
 }
 
-export default Chart_All;
+export default ChartAll;
